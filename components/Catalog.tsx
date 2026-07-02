@@ -23,8 +23,12 @@ export default function Catalog() {
   const [cat, setCat] = useState(initialCat);
   const [brand, setBrand] = useState("all");
   const [sale, setSale] = useState(false);
-  const [openCat, setOpenCat] = useState(true);
-  const [openBrand, setOpenBrand] = useState(true);
+  const [openCat, setOpenCat] = useState(false);
+  const [openBrand, setOpenBrand] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const activeCount =
+    (cat !== "all" ? 1 : 0) + (brand !== "all" ? 1 : 0) + (sale ? 1 : 0);
 
   const list = products.filter(
     (p) =>
@@ -46,8 +50,21 @@ export default function Catalog() {
           </p>
         </div>
 
+        <button
+          className="shopfilters-toggle"
+          onClick={() => setFiltersOpen((o) => !o)}
+          aria-expanded={filtersOpen}
+        >
+          <span>
+            Filtres{activeCount > 0 ? ` · ${activeCount}` : ""}
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+
         <div className="shoppage__layout">
-          <aside className="shopside">
+          <aside className={`shopside${filtersOpen ? " is-open" : ""}`}>
             <div className="shopside__group">
               <button
                 className="shopside__title"
